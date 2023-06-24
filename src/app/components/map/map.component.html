@@ -1,0 +1,23 @@
+<form (ngSubmit)="onSubmit()" #myForm="ngForm">
+  <div>
+    <label for="latitud">Latitud</label>
+    <input
+      type="text"
+      name="latitud"
+      id="latitud"
+      [(ngModel)]="location.latitud"
+    />
+  </div>
+  <div>
+    <label for="longitud">Latitud</label>
+    <input
+      type="text"
+      name="longitud"
+      id="longitud"
+      [(ngModel)]="location.longitud"
+    />
+  </div>
+  <button class="btn btn-large btn-primary" type="submit">
+    Ubicar y centrar
+  </button>
+</form>
