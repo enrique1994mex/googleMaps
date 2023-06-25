@@ -1,23 +1,66 @@
-<form (ngSubmit)="onSubmit()" #myForm="ngForm">
-  <div>
-    <label for="latitud">Latitud</label>
-    <input
-      type="text"
-      name="latitud"
-      id="latitud"
-      [(ngModel)]="location.latitud"
-    />
+<div class="row">
+  <div class="col-8">
+    <div class="mb-3">
+      <label for="direccion" class="form-label">Dirección</label>
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Buscar ubicación en Google Maps"
+          aria-label="Username"
+          aria-describedby="basic-addon1"
+          id="direccion"
+        />
+        <span class="input-group-text" id="basic-addon1"
+          ><i class="bi bi-geo-alt"></i
+        ></span>
+      </div>
+      <div>
+        Si la ubicacion de su propiedad no se muestra correctamente en el mapa,
+        puede arrastar el marcador hasta la ubicación deseada.
+      </div>
+    </div>
   </div>
-  <div>
-    <label for="longitud">Latitud</label>
-    <input
-      type="text"
-      name="longitud"
-      id="longitud"
-      [(ngModel)]="location.longitud"
-    />
+  <div class="col-8">
+    <google-map
+      width="100%"
+      [zoom]="zoom"
+      [center]="center"
+      (mapClick)="click($event)"
+    >
+      <map-marker
+        [position]="marker.position"
+        [label]="marker.label"
+        [title]="marker.title"
+        [options]="marker.options"
+        (mapDragend)="dragEnd($event)"
+      >
+      </map-marker>
+    </google-map>
   </div>
-  <button class="btn btn-large btn-primary" type="submit">
-    Ubicar y centrar
-  </button>
-</form>
+  <div class="col-4">
+    <form (ngSubmit)="onSubmit()" #myForm="ngForm">
+      <div>
+        <label for="latitud">Latitud</label>
+        <input
+          type="text"
+          name="latitud"
+          id="latitud"
+          [(ngModel)]="location.lat"
+        />
+      </div>
+      <div>
+        <label for="longitud">Latitud</label>
+        <input
+          type="text"
+          name="longitud"
+          id="longitud"
+          [(ngModel)]="location.lng"
+        />
+      </div>
+      <button class="btn btn-large btn-primary" type="submit">
+        Ubicar y centrar
+      </button>
+    </form>
+  </div>
+</div>
