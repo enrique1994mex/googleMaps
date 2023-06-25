@@ -1,4 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  NgZone,
+  ViewChild,
+} from '@angular/core';
+import { GoogleMap } from '@angular/google-maps';
 
 @Component({
   selector: 'app-map',
@@ -6,7 +13,14 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
-  center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
+  title = 'angular-google-map-search';
+
+  @ViewChild('search')
+  public searchElementRef!: ElementRef;
+  @ViewChild(GoogleMap)
+  public map!: GoogleMap;
+
+  center!: google.maps.LatLngLiteral;
   zoom = 15;
   location = {
     lat: 0,
@@ -25,6 +39,41 @@ export class MapComponent implements OnInit {
     info: '',
     options: { draggable: true },
   };
+
+  constructor(private ngZone: NgZone) {}
+
+  ngAfterViewInit(): void {
+    // Binding autocomplete to search input control
+    let autocomplete = new google.maps.places.Autocomplete(
+      this.searchElementRef.nativeElement
+    );
+
+    autocomplete.addListener('place_changed', () => {
+      this.ngZone.run(() => {
+        //get the place result
+        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+        //verify result
+        if (place.geometry === undefined || place.geometry === null) {
+          return;
+        }
+
+        //set latitude, longitude and zoom
+        if (place.geometry.location) {
+          this.location.lat = place.geometry.location?.lat();
+          this.location.lng = place.geometry.location?.lng();
+          this.addMarker(
+            place.geometry.location?.lat(),
+            place.geometry.location?.lng()
+          );
+        }
+        this.center = {
+          lat: this.location.lat,
+          lng: this.location.lng,
+        };
+      });
+    });
+  }
 
   ngOnInit() {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -71,6 +120,9 @@ export class MapComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.location);
+    this.center = {
+      lat: this.location.lat,
+      lng: this.location.lng,
+    };
   }
 }

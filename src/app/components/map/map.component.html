@@ -1,19 +1,21 @@
-<div class="row">
-  <div class="col-8">
+<div class="row gx-5">
+  <div class="col-7">
     <div class="mb-3">
-      <label for="direccion" class="form-label">Dirección</label>
+      <label for="direccion" class="form-label fw-bold">Dirección</label>
       <div class="input-group mb-3">
         <input
           type="text"
           class="form-control"
           placeholder="Buscar ubicación en Google Maps"
+          (keydown.enter)="$event.preventDefault()"
           aria-label="Username"
           aria-describedby="basic-addon1"
           id="direccion"
+          #search
         />
-        <span class="input-group-text" id="basic-addon1"
-          ><i class="bi bi-geo-alt"></i
-        ></span>
+        <span class="input-group-text w-auto" id="basic-addon1"
+          ><img width="20" height="20" src="assets/location.svg"
+        /></span>
       </div>
       <div>
         Si la ubicacion de su propiedad no se muestra correctamente en el mapa,
@@ -21,7 +23,7 @@
       </div>
     </div>
   </div>
-  <div class="col-8">
+  <div class="col-7">
     <google-map
       width="100%"
       [zoom]="zoom"
@@ -38,27 +40,33 @@
       </map-marker>
     </google-map>
   </div>
-  <div class="col-4">
+  <div class="col-3 p-3 bg-light rounded-3 h-25">
+    <p>
+      Ingrese la Latitud y Longitud correcta para actualizar la ubicación de su
+      propiedad
+    </p>
     <form (ngSubmit)="onSubmit()" #myForm="ngForm">
-      <div>
-        <label for="latitud">Latitud</label>
+      <div class="mb-3">
+        <label for="latitud" class="form-label fw-bold">Latitud</label>
         <input
           type="text"
+          class="form-control bg-opacity-25 bg-warning-subtle"
           name="latitud"
           id="latitud"
           [(ngModel)]="location.lat"
         />
       </div>
-      <div>
-        <label for="longitud">Latitud</label>
+      <div class="mb-3">
+        <label for="longitud" class="form-label fw-bold">Latitud</label>
         <input
           type="text"
+          class="form-control bg-warning-subtle"
           name="longitud"
           id="longitud"
           [(ngModel)]="location.lng"
         />
       </div>
-      <button class="btn btn-large btn-primary" type="submit">
+      <button class="btn btn-large btn-outline-secondary" type="submit">
         Ubicar y centrar
       </button>
     </form>
