@@ -103,13 +103,13 @@ export class MapComponent implements OnInit {
     };
   }
 
-  click(event: google.maps.MapMouseEvent) {
+  /*click(event: google.maps.MapMouseEvent) {
     if (event.latLng) {
       this.location.lat = event.latLng.lat();
       this.location.lng = event.latLng.lng();
       this.addMarker(event.latLng.lat(), event.latLng.lng());
     }
-  }
+  } (mapClick)="click($event)" */
 
   dragEnd(event: google.maps.MapMouseEvent) {
     if (event.latLng) {
